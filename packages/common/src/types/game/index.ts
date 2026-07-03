@@ -13,6 +13,7 @@ export interface Player {
 export interface Answer {
   playerId: string
   answerId: number
+  answerIds?: number[]
   points: number
 }
 
@@ -32,6 +33,7 @@ export interface Question {
   answers: string[]
   answers_i18n?: Record<string, string[]>
   solutions: number[]
+  multiSelect?: boolean
   cooldown: number
   time: number
 }
@@ -57,6 +59,7 @@ export interface GameUpdateQuestion {
 export interface PlayerAnswerRecord {
   playerName: string
   answerId: number | null
+  answerIds?: number[]
 }
 
 export type QuestionResult = Question & {

@@ -32,6 +32,7 @@ export interface CommonStatusDataMap {
     media?: QuestionMedia
     time: number
     totalPlayer: number
+    multiSelect?: boolean
   }
   SHOW_RESULT: {
     correct: boolean

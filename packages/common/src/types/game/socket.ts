@@ -121,8 +121,8 @@ export interface ClientToServerEvents {
   ) => void
   [EVENTS.PLAYER.RECONNECT]: (_message: { gameId: string }) => void
   [EVENTS.PLAYER.LEAVE]: (_message: { gameId: string }) => void
-  [EVENTS.PLAYER.SELECTED_ANSWER]: (
-    _message: MessageWithoutStatus<{ answerKey: number }>,
+[EVENTS.PLAYER.SELECTED_ANSWER]: (
+    _message: MessageWithoutStatus<{ answerId: number; answerIds?: number[] }>,
   ) => void
 
   // Results actions

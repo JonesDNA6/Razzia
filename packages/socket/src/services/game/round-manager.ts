@@ -150,6 +150,7 @@ export class RoundManager {
       media: question.media,
       time: question.time,
       totalPlayer: this.opts.players.count(),
+      multiSelect: question.multiSelect,
     })
 
     await this.opts.cooldown.start(question.time)
@@ -173,8 +174,11 @@ export class RoundManager {
     })()
 
     const totalType = this.playersAnswers.reduce(
-      (acc: Record<number, number>, { answerId }) => {
-        acc[answerId] = (acc[answerId] || 0) + 1
+      (acc: Record<number, number>, { answerId, answerIds }) => {
+        const ids = answerIds?.length ? answerIds : [answerId]
+        ids.forEach((id) => {
+          acc[id] = (acc[id] || 0) + 1
+        })
 
         return acc
       },
@@ -187,12 +191,21 @@ export class RoundManager {
           (a) => a.playerId === player.id,
         )
 
-        const isCorrect = playerAnswer
-          ? question.solutions.includes(playerAnswer.answerId)
-          : false
+        const selectedAnswers = playerAnswer?.answerIds ?? (playerAnswer ? [playerAnswer.answerId] : [])
+        const isMultiSelect = question.solutions.length > 1
 
-        const points =
-          playerAnswer && isCorrect ? Math.round(playerAnswer.points) : 0
+        let isCorrect = false
+        if (isMultiSelect) {
+          // Multi-select: must select ALL correct answers AND no incorrect ones
+          const selectedSet = new Set(selectedAnswers)
+          const solutionSet = new Set(question.solutions)
+          isCorrect = selectedSet.size === solutionSet.size && [...selectedSet].every((a) => solutionSet.has(a))
+        } else {
+          // Single-select: existing logic
+          isCorrect = playerAnswer ? question.solutions.includes(playerAnswer.answerId) : false
+        }
+
+        const points = playerAnswer && isCorrect ? Math.round(playerAnswer.points) : 0
 
         player.points += points
         player.streak = isCorrect ? player.streak + 1 : 0
@@ -224,12 +237,14 @@ export class RoundManager {
 
     this.questionsHistory.push({
       ...question,
-      playerAnswers: currentPlayers.map((player) => ({
-        playerName: player.username,
-        answerId:
-          this.playersAnswers.find((a) => a.playerId === player.id)?.answerId ??
-          null,
-      })),
+      playerAnswers: currentPlayers.map((player) => {
+        const pa = this.playersAnswers.find((a) => a.playerId === player.id)
+        return {
+          playerName: player.username,
+          answerId: pa?.answerId ?? null,
+          answerIds: pa?.answerIds,
+        }
+      }),
     })
 
     this.leaderboard = sortedPlayers
@@ -237,7 +252,7 @@ export class RoundManager {
     this.playersAnswers = []
   }
 
-  selectAnswer(socket: Socket, answerId: number): void {
+  selectAnswer(socket: Socket, answerId: number, answerKeys?: number[]): void {
     const player = this.opts.players.findById(socket.id)
     const question = this.opts.quizz.questions[this.currentQuestion]
 
@@ -260,9 +275,12 @@ export class RoundManager {
       return timeToPoint(this.startTime, question.time)
     })()
 
+    const selectedAnswers = answerKeys?.length ? answerKeys : [answerId]
+
     this.playersAnswers.push({
       playerId: player.id,
-      answerId,
+      answerId: selectedAnswers[0],
+      answerIds: selectedAnswers,
       points,
     })
 

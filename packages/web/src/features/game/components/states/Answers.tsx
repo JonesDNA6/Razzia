@@ -24,7 +24,7 @@ interface Props {
 }
 
 const Answers = ({
-  data: { question, question_i18n, answers, answers_i18n, media, time, totalPlayer },
+  data: { question, question_i18n, answers, answers_i18n, media, time, totalPlayer, multiSelect },
 }: Props) => {
   const { localize, localizeList } = useLocalizedText()
   const { socket } = useSocket()
@@ -32,6 +32,7 @@ const Answers = ({
 
   const [cooldown, setCooldown] = useState(time)
   const [totalAnswer, setTotalAnswer] = useState(0)
+  const [selectedAnswers, setSelectedAnswers] = useState<number[]>([])
   const { t } = useTranslation()
 
   const [sfxPop] = useSound(SFX.ANSWERS.SOUND, {
@@ -49,13 +50,43 @@ const Answers = ({
       return
     }
 
+    if (multiSelect) {
+      // Toggle selection for multi-select
+      setSelectedAnswers((prev) =>
+        prev.includes(answerKey)
+          ? prev.filter((k) => k !== answerKey)
+          : [...prev, answerKey],
+      )
+      sfxPop()
+    } else {
+      // Single-select: submit immediately
+      socket.emit(EVENTS.PLAYER.SELECTED_ANSWER, {
+        gameId,
+        data: {
+          answerKey,
+        },
+      })
+      sfxPop()
+    }
+  }
+
+  const handleConfirm = () => {
+    if (!player || !gameId || !multiSelect) {
+      return
+    }
+    if (selectedAnswers.length === 0) {
+      return
+    }
+
     socket.emit(EVENTS.PLAYER.SELECTED_ANSWER, {
       gameId,
       data: {
-        answerKey,
+        answerKey: selectedAnswers[0],
+        answerKeys: selectedAnswers,
       },
     })
     sfxPop()
+    setSelectedAnswers([])
   }
 
   useEffect(() => {
@@ -119,7 +150,10 @@ const Answers = ({
           {localizeList(answers, answers_i18n).map((answer, key) => (
             <AnswerButton
               key={key}
-              className={clsx(ANSWERS_COLORS[key])}
+              className={clsx(
+                ANSWERS_COLORS[key],
+                multiSelect && selectedAnswers.includes(key) && "ring-2 ring-white",
+              )}
               label={ANSWERS_LABELS[key]}
               onClick={handleAnswer(key)}
             >
@@ -127,6 +161,18 @@ const Answers = ({
             </AnswerButton>
           ))}
         </div>
+
+        {multiSelect && (
+          <div className="mx-auto mb-4 flex w-full max-w-7xl justify-center">
+            <Button
+              className="bg-white px-8 text-black hover:bg-gray-200"
+              onClick={handleConfirm}
+              disabled={selectedAnswers.length === 0}
+            >
+              {t("common:confirm")}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   )
