@@ -1,4 +1,5 @@
 import type { ManagerStatusDataMap } from "@razzia/common/types/game/status"
+import { useLocalizedText } from "@razzia/web/features/game/utils/localize"
 import { SFX } from "@razzia/web/features/game/utils/constants"
 import useScreenSize from "@razzia/web/hooks/useScreenSize"
 import clsx from "clsx"
@@ -95,7 +96,8 @@ const Medal = ({ rank }: { rank: number }) => {
   )
 }
 
-const Podium = ({ data: { subject, top } }: Props) => {
+const Podium = ({ data: { subject, subject_i18n, top } }: Props) => {
+  const { localize } = useLocalizedText()
   const apparition = usePodiumAnimation(top.length)
 
   const { width, height } = useScreenSize()
@@ -117,7 +119,7 @@ const Podium = ({ data: { subject, top } }: Props) => {
       )}
       <section className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-between">
         <h2 className="anim-show text-center text-3xl font-bold text-white drop-shadow-lg md:text-4xl lg:text-5xl">
-          {subject}
+          {localize(subject, subject_i18n)}
         </h2>
 
         <div
@@ -139,7 +141,7 @@ const Podium = ({ data: { subject, top } }: Props) => {
                   },
                 )}
               >
-                {top[1].username}
+                {top[1].avatar ?? "🏆"} {top[1].username}
               </p>
               <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-xl pt-6 text-center shadow-2xl">
                 <Medal rank={2} />
@@ -167,7 +169,7 @@ const Podium = ({ data: { subject, top } }: Props) => {
                 { "anim-balanced opacity-100": apparition >= 4 },
               )}
             >
-              {top[0].username}
+              {top[0].avatar ?? "🏆"} {top[0].username}
             </p>
             <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-xl pt-6 text-center shadow-2xl">
               <Medal rank={1} />
@@ -194,7 +196,7 @@ const Podium = ({ data: { subject, top } }: Props) => {
                   },
                 )}
               >
-                {top[2].username}
+                {top[2].avatar ?? "🏆"} {top[2].username}
               </p>
               <div className="bg-primary flex h-full w-full flex-col items-center gap-4 rounded-t-xl pt-6 text-center shadow-2xl">
                 <Medal rank={3} />

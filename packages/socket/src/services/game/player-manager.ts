@@ -15,7 +15,7 @@ export class PlayerManager {
     this.getManagerId = getManagerId
   }
 
-  join(socket: Socket, username: string): void {
+  join(socket: Socket, username: string, avatar?: string): void {
     const clientId = socket.handshake.auth.clientId as string
 
     if (this.findByClientId(clientId)) {
@@ -42,6 +42,7 @@ export class PlayerManager {
       clientId,
       connected: true,
       username,
+      avatar,
       points: 0,
       streak: 0,
     }

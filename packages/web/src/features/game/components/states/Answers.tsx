@@ -1,6 +1,7 @@
 import { EVENTS, MEDIA_TYPES, NO_TIME_LIMIT } from "@razzia/common/constants"
 import type { QuestionMediaType } from "@razzia/common/types/game"
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
+import { useLocalizedText } from "@razzia/web/features/game/utils/localize"
 import QuestionMedia from "@razzia/web/components/QuestionMedia"
 import AnswerButton from "@razzia/web/features/game/components/AnswerButton"
 import {
@@ -23,8 +24,9 @@ interface Props {
 }
 
 const Answers = ({
-  data: { question, answers, media, time, totalPlayer },
+  data: { question, question_i18n, answers, answers_i18n, media, time, totalPlayer },
 }: Props) => {
+  const { localize, localizeList } = useLocalizedText()
   const { socket } = useSocket()
   const { player, gameId } = usePlayerStore()
 
@@ -87,10 +89,10 @@ const Answers = ({
     <div className="flex h-full flex-1 flex-col justify-between">
       <div className="mx-auto inline-flex h-full w-full max-w-7xl flex-1 flex-col items-center justify-center gap-5">
         <h2 className="text-center text-2xl font-bold text-white drop-shadow-lg md:text-4xl lg:text-5xl">
-          {question}
+          {localize(question, question_i18n)}
         </h2>
 
-        <QuestionMedia media={media} alt={question} />
+        <QuestionMedia media={media} alt={localize(question, question_i18n)} />
       </div>
 
       <div>
@@ -114,7 +116,7 @@ const Answers = ({
         </div>
 
         <div className="mx-auto mb-4 grid w-full max-w-7xl grid-cols-2 gap-1 px-2 text-lg font-bold text-white md:text-xl">
-          {answers.map((answer, key) => (
+          {localizeList(answers, answers_i18n).map((answer, key) => (
             <AnswerButton
               key={key}
               className={clsx(ANSWERS_COLORS[key])}

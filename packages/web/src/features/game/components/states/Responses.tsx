@@ -1,5 +1,6 @@
 import type { ManagerStatusDataMap } from "@razzia/common/types/game/status"
 import AnswerButton from "@razzia/web/features/game/components/AnswerButton"
+import { useLocalizedText } from "@razzia/web/features/game/utils/localize"
 import {
   ANSWERS_COLORS,
   ANSWERS_LABELS,
@@ -15,8 +16,9 @@ interface Props {
 }
 
 const Responses = ({
-  data: { question, answers, responses, solutions },
+  data: { question, question_i18n, answers, answers_i18n, responses, solutions },
 }: Props) => {
+  const { localize, localizeList } = useLocalizedText()
   const [percentages, setPercentages] = useState<Record<string, string>>({})
   const [isMusicPlaying, setIsMusicPlaying] = useState(false)
 
@@ -55,12 +57,12 @@ const Responses = ({
     <div className="flex h-full flex-1 flex-col justify-between">
       <div className="mx-auto inline-flex h-full w-full max-w-7xl flex-1 flex-col items-center justify-center gap-5">
         <h2 className="text-center text-2xl font-bold text-white drop-shadow-lg md:text-4xl lg:text-5xl">
-          {question}
+          {localize(question, question_i18n)}
         </h2>
 
         <div
           className={`mt-8 grid h-40 w-full max-w-3xl gap-4 px-2`}
-          style={{ gridTemplateColumns: `repeat(${answers.length}, 1fr)` }}
+          style={{ gridTemplateColumns: `repeat(${localizeList(answers, answers_i18n).length}, 1fr)` }}
         >
           {answers.map((_, key) => (
             <div
@@ -81,7 +83,7 @@ const Responses = ({
 
       <div>
         <div className="mx-auto mb-4 grid w-full max-w-7xl grid-cols-2 gap-1 rounded-full px-2 text-lg font-bold text-white md:text-xl">
-          {answers.map((answer, key) => (
+          {localizeList(answers, answers_i18n).map((answer, key) => (
             <AnswerButton
               key={key}
               className={clsx(ANSWERS_COLORS[key], {

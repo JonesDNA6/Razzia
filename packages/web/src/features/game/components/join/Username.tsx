@@ -8,6 +8,7 @@ import {
   useSocket,
 } from "@razzia/web/features/game/contexts/socket-context"
 import { usePlayerStore } from "@razzia/web/features/game/stores/player"
+import AvatarPicker from "@razzia/web/features/game/components/join/AvatarPicker"
 
 import { useNavigate } from "@tanstack/react-router"
 import { type KeyboardEvent, useState } from "react"
@@ -18,6 +19,7 @@ const Username = () => {
   const { gameId, login, setStatus } = usePlayerStore()
   const navigate = useNavigate()
   const [username, setUsername] = useState("")
+  const [avatar, setAvatar] = useState("😀")
   const { t } = useTranslation()
 
   const handleLogin = () => {
@@ -25,7 +27,10 @@ const Username = () => {
       return
     }
 
-    socket.emit(EVENTS.PLAYER.LOGIN, { gameId, data: { username } })
+    socket.emit(EVENTS.PLAYER.LOGIN, {
+      gameId,
+      data: { username, avatar },
+    })
   }
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -36,7 +41,7 @@ const Username = () => {
 
   useEvent(EVENTS.GAME.SUCCESS_JOIN, (joinedGameId) => {
     setStatus(STATUS.WAIT, { text: "game:waitingForPlayers" })
-    login(username)
+    login(username, avatar)
 
     navigate({ to: "/party/$gameId", params: { gameId: joinedGameId } })
   })
@@ -49,6 +54,7 @@ const Username = () => {
         onKeyDown={handleKeyDown}
         placeholder={t("game:usernamePlaceholder")}
       />
+      <AvatarPicker value={avatar} onChange={setAvatar} />
       <Button className="mt-4" onClick={handleLogin}>
         {t("common:submit")}
       </Button>

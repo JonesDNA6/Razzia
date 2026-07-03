@@ -8,7 +8,7 @@ import { Check, X } from "lucide-react"
 import { useTranslation } from "react-i18next"
 
 const ResultModalTable = () => {
-  const { questionResult, getPlayerPoints } = useResultModal()
+  const { result, questionResult, getPlayerPoints } = useResultModal()
   const { t } = useTranslation()
 
   return (
@@ -35,7 +35,13 @@ const ResultModalTable = () => {
 
           return (
             <tr key={i} className="hover:bg-gray-50">
-              <td className="px-5 py-2.5 font-medium">{pa.playerName}</td>
+              <td className="px-5 py-2.5 font-medium">
+                <span className="mr-1.5 text-lg">
+                  {result.players.find((p) => p.username === pa.playerName)
+                    ?.avatar ?? ""}
+                </span>
+                {pa.playerName}
+              </td>
               <td className="px-4 py-2.5">
                 {pa.answerId !== null && answerLabel ? (
                   <span

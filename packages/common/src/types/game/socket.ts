@@ -53,7 +53,7 @@ export interface ServerToClientEvents {
   [EVENTS.PLAYER.SUCCESS_RECONNECT]: (_data: {
     gameId: string
     status: { name: Status; data: StatusDataMap[Status] }
-    player: { username: string; points: number }
+    player: { username: string; avatar?: string; points: number }
     currentQuestion: GameUpdateQuestion
   }) => void
   [EVENTS.PLAYER.UPDATE_LEADERBOARD]: (_data: { leaderboard: Player[] }) => void
@@ -116,7 +116,7 @@ export interface ClientToServerEvents {
   // Player actions
   [EVENTS.PLAYER.JOIN]: (_inviteCode: string) => void
   [EVENTS.PLAYER.LOGIN]: (
-    _message: MessageWithoutStatus<{ username: string }>,
+    _message: MessageWithoutStatus<{ username: string; avatar?: string }>,
   ) => void
   [EVENTS.PLAYER.RECONNECT]: (_message: { gameId: string }) => void
   [EVENTS.PLAYER.LEAVE]: (_message: { gameId: string }) => void

@@ -5,6 +5,7 @@ export interface Player {
   clientId: string
   connected: boolean
   username: string
+  avatar?: string
   points: number
   streak: number
 }
@@ -26,8 +27,10 @@ export interface QuestionMedia {
 
 export interface Question {
   question: string
+  question_i18n?: Record<string, string>
   media?: QuestionMedia
   answers: string[]
+  answers_i18n?: Record<string, string[]>
   solutions: number[]
   cooldown: number
   time: number
@@ -35,6 +38,7 @@ export interface Question {
 
 export interface Quizz {
   subject: string
+  subject_i18n?: Record<string, string>
   questions: Question[]
 }
 
@@ -61,6 +65,7 @@ export type QuestionResult = Question & {
 
 export interface GameResultPlayer {
   username: string
+  avatar?: string
   points: number
   rank: number
 }
@@ -68,6 +73,7 @@ export interface GameResultPlayer {
 export interface GameResult {
   id: string
   subject: string
+  subject_i18n?: Record<string, string>
   date: string
   players: GameResultPlayer[]
   questions: QuestionResult[]

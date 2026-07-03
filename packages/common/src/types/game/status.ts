@@ -16,16 +16,19 @@ export const STATUS = {
 export type Status = (typeof STATUS)[keyof typeof STATUS]
 
 export interface CommonStatusDataMap {
-  SHOW_START: { time: number; subject: string }
+  SHOW_START: { time: number; subject: string; subject_i18n?: Record<string, string> }
   SHOW_PREPARED: { totalAnswers: number; questionNumber: number }
   SHOW_QUESTION: {
     question: string
+    question_i18n?: Record<string, string>
     media?: QuestionMedia
     cooldown: number
   }
   SELECT_ANSWER: {
     question: string
+    question_i18n?: Record<string, string>
     answers: string[]
+    answers_i18n?: Record<string, string[]>
     media?: QuestionMedia
     time: number
     totalPlayer: number
@@ -39,16 +42,18 @@ export interface CommonStatusDataMap {
     aheadOfMe: string | null
   }
   WAIT: { text: string }
-  FINISHED: { subject: string; top: Player[]; rank?: number }
+  FINISHED: { subject: string; subject_i18n?: Record<string, string>; top: Player[]; rank?: number }
 }
 
 interface ManagerExtraStatus {
   SHOW_ROOM: { text: string; inviteCode?: string }
   SHOW_RESPONSES: {
     question: string
+    question_i18n?: Record<string, string>
     responses: Record<number, number>
     solutions: number[]
     answers: string[]
+    answers_i18n?: Record<string, string[]>
     media?: QuestionMedia
   }
   SHOW_LEADERBOARD: { oldLeaderboard: Player[]; leaderboard: Player[] }

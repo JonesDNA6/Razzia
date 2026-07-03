@@ -88,6 +88,7 @@ export class RoundManager {
     this.opts.broadcast(STATUS.SHOW_START, {
       time: 3,
       subject: this.opts.quizz.subject,
+      subject_i18n: this.opts.quizz.subject_i18n,
     })
 
     await sleep(3)
@@ -128,6 +129,7 @@ export class RoundManager {
 
     this.opts.broadcast(STATUS.SHOW_QUESTION, {
       question: question.question,
+      question_i18n: question.question_i18n,
       media: imageMedia,
       cooldown: question.cooldown,
     })
@@ -142,7 +144,9 @@ export class RoundManager {
 
     this.opts.broadcast(STATUS.SELECT_ANSWER, {
       question: question.question,
+      question_i18n: question.question_i18n,
       answers: question.answers,
+      answers_i18n: question.answers_i18n,
       media: question.media,
       time: question.time,
       totalPlayer: this.opts.players.count(),
@@ -318,23 +322,27 @@ export class RoundManager {
     this.opts.onGameFinished({
       id: `${Date.now()}-${nanoid(8)}`,
       subject: this.opts.quizz.subject,
+      subject_i18n: this.opts.quizz.subject_i18n,
       date: new Date().toISOString(),
       players: this.leaderboard.map((player, index) => ({
         username: player.username,
+        avatar: player.avatar,
         points: player.points,
         rank: index + 1,
       })),
       questions: this.questionsHistory,
     })
 
-    this.opts.send(this.opts.getManagerId(), STATUS.FINISHED, {
+    this.opts.send(this.getManagerId, STATUS.FINISHED, {
       subject: this.opts.quizz.subject,
+      subject_i18n: this.opts.quizz.subject_i18n,
       top,
     })
 
     this.leaderboard.forEach((player, index) => {
       this.opts.send(player.id, STATUS.FINISHED, {
         subject: this.opts.quizz.subject,
+        subject_i18n: this.opts.quizz.subject_i18n,
         top,
         rank: index + 1,
       })
@@ -353,9 +361,11 @@ export class RoundManager {
       this.opts.onGameFinished({
         id: `${Date.now()}-${nanoid(8)}`,
         subject: this.opts.quizz.subject,
+        subject_i18n: this.opts.quizz.subject_i18n,
         date: new Date().toISOString(),
         players: this.leaderboard.map((player, index) => ({
           username: player.username,
+          avatar: player.avatar,
           points: player.points,
           rank: index + 1,
         })),
@@ -364,12 +374,14 @@ export class RoundManager {
 
       this.opts.send(this.opts.getManagerId(), STATUS.FINISHED, {
         subject: this.opts.quizz.subject,
+        subject_i18n: this.opts.quizz.subject_i18n,
         top,
       })
 
       this.leaderboard.forEach((player, index) => {
         this.opts.send(player.id, STATUS.FINISHED, {
           subject: this.opts.quizz.subject,
+          subject_i18n: this.opts.quizz.subject_i18n,
           top,
           rank: index + 1,
         })

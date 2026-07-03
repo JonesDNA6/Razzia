@@ -97,7 +97,9 @@ export const gameSocketHandlers = ({ io, socket }: SocketContext) => {
   })
 
   socket.on(EVENTS.PLAYER.LOGIN, ({ gameId, data }) =>
-    withGame(gameId, socket, (game) => game.join(socket, data.username)),
+    withGame(gameId, socket, (game) =>
+      game.join(socket, data.username, data.avatar),
+    ),
   )
 
   socket.on(EVENTS.MANAGER.KICK_PLAYER, ({ gameId, playerId }) =>

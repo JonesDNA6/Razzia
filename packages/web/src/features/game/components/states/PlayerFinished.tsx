@@ -1,4 +1,5 @@
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
+import { useLocalizedText } from "@razzia/web/features/game/utils/localize"
 import { usePlayerStore } from "@razzia/web/features/game/stores/player"
 import { useTranslation } from "react-i18next"
 
@@ -6,7 +7,8 @@ interface Props {
   data: CommonStatusDataMap["FINISHED"]
 }
 
-const PlayerFinished = ({ data: { rank, subject } }: Props) => {
+const PlayerFinished = ({ data: { rank, subject, subject_i18n } }: Props) => {
+  const { localize } = useLocalizedText()
   const { player } = usePlayerStore()
   const { t } = useTranslation()
 
@@ -21,8 +23,10 @@ const PlayerFinished = ({ data: { rank, subject } }: Props) => {
   return (
     <div className="flex h-full flex-1 flex-col items-center justify-center gap-4 px-4">
       <p className="text-center text-4xl font-bold text-white drop-shadow-lg md:text-5xl">
-        {subject}
+        {localize(subject, subject_i18n)}
       </p>
+
+      <span className="text-6xl">{player?.avatar ?? "🏆"}</span>
 
       <p className="text-center text-3xl font-bold text-white drop-shadow-lg md:text-4xl">
         {rankKey !== null ? t(rankKey, { rank }) : "—"}

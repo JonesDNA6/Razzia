@@ -1,6 +1,7 @@
 import { EVENTS } from "@razzia/common/constants"
 import type { CommonStatusDataMap } from "@razzia/common/types/game/status"
 import { useEvent } from "@razzia/web/features/game/contexts/socket-context"
+import { useLocalizedText } from "@razzia/web/features/game/utils/localize"
 import { SFX } from "@razzia/web/features/game/utils/constants"
 import clsx from "clsx"
 import { useState } from "react"
@@ -10,7 +11,8 @@ interface Props {
   data: CommonStatusDataMap["SHOW_START"]
 }
 
-const Start = ({ data: { time, subject } }: Props) => {
+const Start = ({ data: { time, subject, subject_i18n } }: Props) => {
+  const { localize } = useLocalizedText()
   const [showTitle, setShowTitle] = useState(true)
   const [cooldown, setCooldown] = useState(time)
 
@@ -32,7 +34,7 @@ const Start = ({ data: { time, subject } }: Props) => {
     <section className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center">
       {showTitle ? (
         <h2 className="anim-show text-center text-3xl font-bold text-white drop-shadow-lg md:text-4xl lg:text-5xl">
-          {subject}
+          {localize(subject, subject_i18n)}
         </h2>
       ) : (
         <>
