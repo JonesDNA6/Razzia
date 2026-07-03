@@ -53,6 +53,17 @@ const GameWrapper = ({
     setIsDisabled(false)
   }, [statusName])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space" && manager && next && !isDisabled) {
+        e.preventDefault()
+        handleNext()
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [manager, next, isDisabled])
+
   const handleNext = () => {
     setIsDisabled(true)
     onNext?.()
