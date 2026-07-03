@@ -305,6 +305,42 @@ export class RoundManager {
     this.opts.cooldown.abort()
   }
 
+  forceFinish(): void {
+    if (!this.started) {
+      return
+    }
+
+    this.started = false
+    this.opts.cooldown.abort()
+
+    const top = this.leaderboard.slice(0, 3)
+
+    this.opts.onGameFinished({
+      id: `${Date.now()}-${nanoid(8)}`,
+      subject: this.opts.quizz.subject,
+      date: new Date().toISOString(),
+      players: this.leaderboard.map((player, index) => ({
+        username: player.username,
+        points: player.points,
+        rank: index + 1,
+      })),
+      questions: this.questionsHistory,
+    })
+
+    this.opts.send(this.opts.getManagerId(), STATUS.FINISHED, {
+      subject: this.opts.quizz.subject,
+      top,
+    })
+
+    this.leaderboard.forEach((player, index) => {
+      this.opts.send(player.id, STATUS.FINISHED, {
+        subject: this.opts.quizz.subject,
+        top,
+        rank: index + 1,
+      })
+    })
+  }
+
   showLeaderboard(): void {
     const isLastRound =
       this.currentQuestion + 1 === this.opts.quizz.questions.length

@@ -110,10 +110,10 @@ const GameWrapper = ({
                 </Button>
               )}
 
-              {manager && onBack && (
+              {manager && !next && (
                 <Button
-                  onClick={onBack}
                   className="bg-white px-4 text-black hover:bg-gray-200"
+                  onClick={onBack}
                 >
                   {t("common:exit")}
                 </Button>

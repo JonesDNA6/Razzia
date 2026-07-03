@@ -274,6 +274,10 @@ class Game {
   showLeaderboard() {
     this.round.showLeaderboard()
   }
+
+  endGame() {
+    this.round.forceFinish()
+  }
 }
 
 export default Game
