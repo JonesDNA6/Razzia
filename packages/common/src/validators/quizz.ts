@@ -10,11 +10,13 @@ export const questionMediaValidator = z.object({
 
 const questionValidator = z.object({
   question: z.string().min(1, "errors:quizz.questionEmpty"),
+  question_i18n: z.record(z.string()).optional(),
   media: questionMediaValidator.optional(),
   answers: z
     .array(z.string().min(1, "errors:quizz.answerEmpty"))
     .min(2, "errors:quizz.tooFewAnswers")
     .max(4, "errors:quizz.tooManyAnswers"),
+  answers_i18n: z.record(z.array(z.string())).optional(),
   solutions: z
     .union([z.number().int().min(0), z.array(z.number().int().min(0)).min(1)])
     .transform((v) => (Array.isArray(v) ? v : [v])),
@@ -24,6 +26,7 @@ const questionValidator = z.object({
 
 export const quizzValidator = z.object({
   subject: z.string().min(1, "errors:quizz.subjectEmpty"),
+  subject_i18n: z.record(z.string()).optional(),
   questions: z.array(questionValidator).min(1, "errors:quizz.noQuestions"),
 })
 

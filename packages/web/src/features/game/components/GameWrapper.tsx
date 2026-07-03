@@ -128,7 +128,10 @@ const GameWrapper = ({
 
             {!manager && (
               <div className="z-50 flex items-center justify-between bg-white px-4 py-2 text-lg font-bold text-white">
-                <p className="text-gray-800">{player?.username}</p>
+                <p className="flex items-center gap-2 text-gray-800">
+                  <span className="text-xl">{player?.avatar ?? "🏆"}</span>
+                  {player?.username}
+                </p>
                 <div className="rounded-lg bg-gray-800 px-3 py-1 text-lg">
                   {player?.points}
                 </div>
