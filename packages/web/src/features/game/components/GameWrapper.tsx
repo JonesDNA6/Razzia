@@ -11,7 +11,7 @@ import { usePlayerStore } from "@razzia/web/features/game/stores/player"
 import { useQuestionStore } from "@razzia/web/features/game/stores/question"
 import { MANAGER_SKIP_BTN } from "@razzia/web/features/game/utils/constants"
 import clsx from "clsx"
-import { type PropsWithChildren, useEffect, useState } from "react"
+import { type PropsWithChildren, useEffect, useRef, useState } from "react"
 import toast from "react-hot-toast"
 import { useTranslation } from "react-i18next"
 
@@ -35,6 +35,8 @@ const GameWrapper = ({
   const { t } = useTranslation()
   const [isDisabled, setIsDisabled] = useState(false)
   const next = statusName ? MANAGER_SKIP_BTN[statusName] : null
+  const onNextRef = useRef(onNext)
+  onNextRef.current = onNext
 
   useEvent(EVENTS.GAME.UPDATE_QUESTION, ({ current, total }) => {
     setQuestionStates({
@@ -57,7 +59,8 @@ const GameWrapper = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space" && manager && next && !isDisabled) {
         e.preventDefault()
-        handleNext()
+        onNextRef.current?.()
+        setIsDisabled(true)
       }
     }
     window.addEventListener("keydown", handleKeyDown)
@@ -96,27 +99,28 @@ const GameWrapper = ({
                 </div>
               )}
 
-              {manager && next && (
-                <Button
-                  className={clsx(
-                    "bg-white px-4 text-black hover:bg-gray-200",
-                    {
-                      "pointer-events-none": isDisabled,
-                    },
+              {manager && (
+                <div className="ml-auto flex gap-2">
+                  {next && (
+                    <Button
+                      className={clsx(
+                        "bg-white px-4 text-black hover:bg-gray-200",
+                        {
+                          "pointer-events-none": isDisabled,
+                        },
+                      )}
+                      onClick={handleNext}
+                    >
+                      {t(next)}
+                    </Button>
                   )}
-                  onClick={handleNext}
-                >
-                  {t(next)}
-                </Button>
-              )}
-
-              {manager && !next && (
-                <Button
-                  className="bg-white px-4 text-black hover:bg-gray-200"
-                  onClick={onBack}
-                >
-                  {t("common:exit")}
-                </Button>
+                  <Button
+                    className="bg-red-500 px-4 text-white hover:bg-red-600"
+                    onClick={onBack}
+                  >
+                    {t("common:exit")}
+                  </Button>
+                </div>
               )}
             </div>
 

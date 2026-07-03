@@ -105,6 +105,7 @@ export interface ClientToServerEvents {
   [EVENTS.MANAGER.NEXT_QUESTION]: (_message: MessageGameId) => void
   [EVENTS.MANAGER.SHOW_LEADERBOARD]: (_message: MessageGameId) => void
   [EVENTS.MANAGER.GET_CONFIG]: () => void
+  [EVENTS.MANAGER.END_GAME]: (_message: MessageGameId) => void
   [EVENTS.MANAGER.LOGOUT]: () => void
 
   // Quizz actions
