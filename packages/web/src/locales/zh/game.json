@@ -1,0 +1,27 @@
+{
+  "correct": "正确！",
+  "gamePinLabel": "游戏PIN：",
+  "hud": {
+    "answers": "回答数",
+    "time": "时间"
+  },
+  "joinInstruction": "加入游戏请访问",
+  "leaderboard": "排行榜",
+  "pinLabel": "PIN码",
+  "playersJoined": "已加入玩家数：",
+  "questionPrefix": "问题 #",
+  "rank": {
+    "1": "第1名",
+    "2": "第2名",
+    "3": "第3名",
+    "other": "第{{rank}}名"
+  },
+  "rankSuffix": "名",
+  "resultBehind": "，落后 ",
+  "resultTop": "你的排名是 ",
+  "startGame": "开始游戏",
+  "usernamePlaceholder": "输入用户名",
+  "waitingForAnswers": "等待玩家答题中",
+  "waitingForPlayers": "等待玩家加入",
+  "wrong": "很遗憾！"
+}

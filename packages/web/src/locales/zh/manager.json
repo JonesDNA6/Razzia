@@ -1,0 +1,44 @@
+{
+  "configurationsTitle": "设置",
+  "logout": "退出登录",
+  "passwordPlaceholder": "密码",
+  "quizz": {
+    "create": "创建测验",
+    "delete": "删除测验",
+    "deleteConfirm": "确定要删除\"{{name}}\"吗？此操作不可撤销。",
+    "deleted": "测验已删除",
+    "import": "从JSON导入测验",
+    "none": "尚未创建测验",
+    "notFound": "未找到测验",
+    "pleaseCreate": "请先创建一个测验",
+    "pleaseSelect": "请选择一个测验",
+    "startGame": "开始游戏"
+  },
+  "result": {
+    "delete": "删除结果",
+    "deleteConfirm": "删除\"{{name}}\"的结果？此操作不可撤销。",
+    "deleted": "结果已删除",
+    "noAnswer": "未回答",
+    "none": "暂无结果，完成游戏后这里将显示报告",
+    "paginationOf": " / ",
+    "stats": {
+      "correctAnswers": "正确答案数",
+      "playersAnswered": "已回答玩家数"
+    },
+    "table": {
+      "answered": "已回答",
+      "correct": " 正确",
+      "correctIncorrect": "正确 / 错误",
+      "incorrect": " 错误",
+      "player": "玩家",
+      "points": "分数"
+    },
+    "playerCount": "{{count}}人",
+    "timeLimitSuffix": "秒限制"
+  },
+  "tabs": {
+    "play": "游戏",
+    "quizz": "测验",
+    "results": "结果"
+  }
+}

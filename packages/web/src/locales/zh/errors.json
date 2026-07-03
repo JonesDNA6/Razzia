@@ -1,0 +1,44 @@
+{
+  "auth": {
+    "invalidInviteCode": "无效的邀请码",
+    "usernameTooLong": "用户名不能超过20个字符",
+    "usernameTooShort": "用户名不能少于4个字符"
+  },
+  "game": {
+    "expired": "游戏已过期",
+    "kickedByManager": "你已被管理员移出游戏",
+    "managerAlreadyConnected": "管理员已连接",
+    "managerDisconnected": "管理员已断开连接",
+    "noPlayersConnected": "没有玩家连接",
+    "notFound": "游戏未找到",
+    "playerAlreadyConnected": "玩家已连接"
+  },
+  "manager": {
+    "failedToReadConfig": "读取游戏配置失败",
+    "invalidPassword": "密码无效",
+    "passwordNotConfigured": "管理员密码未配置"
+  },
+  "notFound": {
+    "back": "返回首页",
+    "description": "您要查找的页面不存在。",
+    "title": "页面未找到"
+  },
+  "quizz": {
+    "answerEmpty": "答案不能为空",
+    "failedToDelete": "删除测验失败",
+    "failedToSave": "测验不完整，请确保所有问题都有标题且至少有一个正确答案",
+    "failedToUpdate": "更新测验失败",
+    "invalidMediaUrl": "媒体URL必须是有效的URL",
+    "noQuestions": "测验至少需要一个问题",
+    "notFound": "测验未找到",
+    "questionEmpty": "问题不能为空",
+    "subjectEmpty": "主题不能为空",
+    "tooFewAnswers": "一个问题至少需要2个答案",
+    "tooManyAnswers": "一个问题不能超过4个答案"
+  },
+  "route": {
+    "back": "返回首页",
+    "description": "发生意外错误，请重试。",
+    "title": "出了点问题"
+  }
+}

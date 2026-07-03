@@ -1,0 +1,31 @@
+{
+  "addAnswerPlaceholder": "添加答案...",
+  "addQuestion": "添加问题",
+  "answersCountSuffix": "个答案",
+  "deleteQuestion": "删除问题",
+  "noQuestionYet": "暂无问题",
+  "question": {
+    "addMediaHint": "为问题添加图片、视频或音频",
+    "config": {
+      "answerTime": "答题时间",
+      "answerTimeHint": "玩家可用于答题的时间",
+      "noTimeLimit": "无时间限制",
+      "noTimeLimitHint": "积分根据答题顺序分配。答题无时间限制。",
+      "questionDisplay": "题目显示",
+      "questionDisplayHint": "答案显示前的等待时间",
+      "timings": "计时设置"
+    },
+    "deleteQuestion": "删除此问题",
+    "deleteQuestionConfirm": "确定要删除此问题吗？",
+    "media": {
+      "audio": "音频",
+      "image": "图片",
+      "video": "视频"
+    },
+    "mediaUrlPlaceholder": "输入URL...",
+    "placeholder": "开始输入问题..."
+  },
+  "quizzSaved": "测验保存成功",
+  "quizzUpdated": "测验更新成功",
+  "titleQuizzPlaceholder": "测验标题..."
+}
